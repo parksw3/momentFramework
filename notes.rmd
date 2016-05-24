@@ -1,0 +1,42 @@
+---
+title: "Using moment equations to understand heterogeneity"
+output: pdf_document
+---
+
+## Definition
+
+We want to write $Y_o(v;D)$ for T**y**pe, **o**rder, **v**ariable, and **D**omain.
+
+We define total as follows: $T_o(v;D) = \int v(a)^o D(a) da$. Since we're mainly interested with susceptibility for now, $T_o$ is represents $T_o(.;S)$.
+
+We define $M_i = T_i/T_0$. Then, $M_1$ is the mean susceptibility and $\kappa = \frac{M_2M_0}{M_1^2}-1$ is the squared coefficient of variance (CV).
+
+##SI example
+
+We have $\dot{S}(a) = - \Lambda \sigma(a) S(a)$. Integrating gives us $\dot{T}_0 = - \Lambda T_1$. More generally, we have $\dot{T}_i = - \Lambda T_{i+1}$. Given that $M_1$ is the mean susceptibility, we can also write:
+
+$$
+\dot{S} = - \Lambda M_1 S
+$$
+
+Using $M$ defined above, we also have the following equations: $\dot{M}_i = - \Lambda (M_{i+1} - M_i M_1)$.
+
+Given that $M_2 = (1 + \kappa) M^2$ and assuming that $\kappa$ stays constant, we can integrate the equation above to obtain the following equation:
+
+$M = \hat{M}S^\kappa$, where $\hat{M}$ is the mean susceptibility of the susceptible population at a disease free equilibrium.
+
+We can define $\kappa = \kappa_2$ and extend this idea to $\kappa_i = \frac{M_iM_{i-2}}{M_{i-1}^2}-1$. This also We can derive an equation for $\kappa_i$ as well:
+
+$$
+\begin{aligned}
+\dot{\kappa_i} &= \frac{M_{i-2}M_{i-1}\dot{M}_i + M_{i-1}M_i \dot{M}_{i-2} - 2 M_{i-2} M_i \dot{M}_{i-1} }{M_{i-1}^3}\\
+&= -\Lambda \frac{M_{i-2}M_{i-1}(M_{i+1} - M_i M_1) + M_{i-1}M_i (M_{i-1} - M_{i-2}M_1) - 2 M_{i-2} M_i (M_i - M_{i-1}M_1) }{M_{i-1}^3}\\
+&= -\Lambda \frac{M_{i-2}M_{i-1}M_{i+1} + M_{i-1}^2M_i - 2 M_{i-2}M_i^2}{M_{i-1}^3}\\
+&= -\Lambda \frac{M_{i-2} (\kappa_{i+1} + 1)M_i^2 + M_{i-1}^2M_i - 2 M_{i-2}M_i^2}{M_{i-1}^3}\\
+&= -\Lambda \frac{(\kappa_{i+1} - 1)M_{i-2} M_i^2 + M_{i-1}^2M_i}{M_{i-1}^3}\\
+&=-\Lambda \frac{(\kappa_{i+1} - 1)(\kappa_i +1)M_iM_{i-1}^2 + M_{i-1}^2M_i}{M_{i-1}^3}\\
+&=-\Lambda \frac{(\kappa_{i+1}\kappa_i - \kappa_i + \kappa_{i+1})M_i}{M_{i-1}}\\
+\end{aligned}
+$$
+
+
