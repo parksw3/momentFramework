@@ -51,4 +51,32 @@ $$
 \kappa \approx (\hat{\kappa} - \kappa^*)S + \kappa^*
 $$
 
+Using chain rule, we can also do this:
+
+$$
+\begin{aligned}
+\frac{d\kappa_i}{dt} &= \frac{d\kappa_i}{dT_{i-2}}\frac{dT_{i-2}}{dt}\\
+-\Lambda \frac{(\kappa_{i+1}\kappa_i - \kappa_i + \kappa_{i+1})M_i}{M_{i-1}} &= - \Lambda M_{i-1} T_0\frac{d\kappa_i}{dT_{i-2}} \\
+\frac{(\kappa_{i+1}\kappa_i - \kappa_i + \kappa_{i+1})M_i}{M_{i-1}^2} &=T_0\frac{d\kappa_i}{dT_{i-2}} \\
+\frac{(\kappa_i + 1)(\kappa_{i+1}\kappa_i - \kappa_i + \kappa_{i+1})}{M_{i-2}} &=T_0\frac{d\kappa_i}{dT_{i-2}} \\
+\end{aligned}
+$$
+
+If we let $i = 2$, we have:
+
+$$
+\begin{aligned}
+(\kappa_2 + 1)(\kappa_3\kappa_2 - \kappa_2 + \kappa_3) &=T_0\frac{d\kappa_2}{dT_0}\\
+(\kappa_2 + 1)(\kappa_3 - 1)(\kappa_2 + 1) + (\kappa_2 + 1) &=T_0\frac{d\kappa_2}{dT_0}\\
+\end{aligned}
+$$
+
+If we assume that $\kappa_3$ stays constant, we can let $a = \kappa_3 - 1$ to get the following separable differential equation:
+
+$$
+\begin{aligned}
+\int \frac{1}{T_0} dT_0 &= \int \frac{1}{a(\kappa_2 + 1)^2 + (\kappa_2 + 1)} d \kappa_2
+\end{aligned}
+$$
+
 ## SIS example
