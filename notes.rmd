@@ -11,7 +11,7 @@ We define total as follows: $T_o(v;D) = \int v(a)^o D(a) da$. Since we're mainly
 
 We define $M_i = T_i/T_0$. Then, $M_1$ is the mean susceptibility and $\kappa = \frac{M_2M_0}{M_1^2}-1$ is the squared coefficient of variance (CV).
 
-##SI example
+## SI example
 
 We have $\dot{S}(a) = - \Lambda \sigma(a) S(a)$. Integrating gives us $\dot{T}_0 = - \Lambda T_1$. More generally, we have $\dot{T}_i = - \Lambda T_{i+1}$. Given that $M_1$ is the mean susceptibility, we can also write:
 
@@ -25,7 +25,7 @@ Given that $M_2 = (1 + \kappa) M^2$ and assuming that $\kappa$ stays constant, w
 
 $M = \hat{M}S^\kappa$, where $\hat{M}$ is the mean susceptibility of the susceptible population at a disease free equilibrium.
 
-We can define $\kappa = \kappa_2$ and extend this idea to $\kappa_i = \frac{M_iM_{i-2}}{M_{i-1}^2}-1$. This also We can derive an equation for $\kappa_i$ as well:
+We can define $\kappa = \kappa_2$ and extend this idea to $\kappa_i = \frac{M_iM_{i-2}}{M_{i-1}^2}-1$. We can derive an equation for $\kappa_i$ as well:
 
 $$
 \begin{aligned}
@@ -39,4 +39,16 @@ $$
 \end{aligned}
 $$
 
+If we assume that $\kappa_i$ stays constant, we can find the higher order $\kappa$ using the following equation:
 
+$$
+\kappa_{i+1} = \frac{\kappa_i}{\kappa_i + 1}
+$$
+
+Another idea is that we can use the two-parameter approximation method in [Dushoff 1999 paper](http://www.sciencedirect.com/science/article/pii/S0040580999914284) coupled with the equations above. At the disease free equilibrium, $\kappa$ is going to equal the squared coefficient of variance of the total population: $\hat{\kappa}$. As $S$ approaches 0, $\kappa$ is also going to reach equilibrium (i.e. $\dot{\kappa} = 0$). Using the equation above, we obtain the following equilibrium value: $\kappa^* = \frac{\kappa_3^*}{1 - \kappa_3^*}$, where $\kappa_3^* = \frac{M_3^* M_1^*}{{M_2^*}^2}-1$. Therefore, we can approximate the trajectory of $\kappa$ through the following equation:
+
+$$
+\kappa \approx (\hat{\kappa} - \kappa^*)S + \kappa^*
+$$
+
+## SIS example
