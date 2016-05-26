@@ -58,20 +58,21 @@ $$
 \end{aligned}
 $$
 
-If we assume that $\kappa_3$ stays constant, we get the following separable differential equation:
+This doesn't work for some reason...It seems like we can't integrate it this way. Assuming that $\kappa_3$ stays constant might be a problem.
 
-$$
+>If we assume that $\kappa_3$ stays constant, we get the following separable differential equation:
+>
+>$$
 \begin{aligned}
 \int \frac{1}{T_0} dT_0 &= \int \frac{1}{(\kappa_2 + 1)(\kappa_3\kappa_2 - \kappa_2 + \kappa_3)} d \kappa_2\\
 \int \frac{1}{T_0} dT_0 &= \int ( \frac{1}{\kappa_2+1} + \frac{1-\kappa_3}{\kappa_3\kappa_2 - \kappa_2 + \kappa_3}) d \kappa_2\\
 \ln(T_0) &= \ln(\kappa_2 + 1) - \ln(\kappa_3\kappa_2 - \kappa_2 + \kappa_3) + C\\
 \end{aligned}
 $$
+>
+>If we set $(\hat{T_0},\hat{\kappa_2}) = (1,\hat{\kappa_2})$, we have $C = \ln(\kappa_3\hat{\kappa}_2 - \hat{\kappa}_2 + \kappa_3) -\ln(\hat{\kappa}_2 + 1)$. Solving the differential equation, we find that
+>$$\kappa = \frac{\kappa_3 S - e^C}{(1-\kappa_3)S + e^C}$$, which doesn't work....
 
-If we set $(\hat{T_0},\hat{\kappa_2}) = (1,\hat{\kappa_2})$, we have $C = \ln(\kappa_3\hat{\kappa}_2 - \hat{\kappa}_2 + \kappa_3) -\ln(\hat{\kappa}_2 + 1)$. Solving the differential equation, we find that
 
-$$
-\kappa = \frac{\kappa_3 S - e^C}{(1-\kappa_3)S + e^C}
-$$
 
 ## SIS example
