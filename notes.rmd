@@ -25,7 +25,7 @@ Given that $M_2 = (1 + \kappa) M^2$ and assuming that $\kappa$ stays constant, w
 
 $M = \hat{M}S^\kappa$, where $\hat{M}$ is the mean susceptibility of the susceptible population at a disease free equilibrium.
 
-We can define $\kappa = \kappa_2$ and extend this idea to $\kappa_i = \frac{M_iM_{i-2}}{M_{i-1}^2}-1$. We can derive an equation for $\kappa_i$ as well:
+### Idea 1 - $\kappa_i = \frac{M_iM_{i-2}}{M_{i-1}^2}-1$
 
 $$
 \begin{aligned}
@@ -39,40 +39,51 @@ $$
 \end{aligned}
 $$
 
-Using chain rule, we can also do this:
+### Idea 2 - $\kappa_i = \frac{M_i}{M_{i-1}M_1}-1$
 
 $$
 \begin{aligned}
-\frac{d\kappa_i}{dt} &= \frac{d\kappa_i}{dT_{i-2}}\frac{dT_{i-2}}{dt}\\
--\Lambda \frac{(\kappa_{i+1}\kappa_i - \kappa_i + \kappa_{i+1})M_i}{M_{i-1}} &= - \Lambda M_{i-1} T_0\frac{d\kappa_i}{dT_{i-2}} \\
-\frac{(\kappa_{i+1}\kappa_i - \kappa_i + \kappa_{i+1})M_i}{M_{i-1}^2} &=T_0\frac{d\kappa_i}{dT_{i-2}} \\
-\frac{(\kappa_i + 1)(\kappa_{i+1}\kappa_i - \kappa_i + \kappa_{i+1})}{M_{i-2}} &=T_0\frac{d\kappa_i}{dT_{i-2}} \\
+\dot{\kappa}_i &=\frac{M_{i-1}M_1 \dot{M}_i - M_i M_1 \dot{M}_{i-1} - M_i M_{i-1} \dot{M}_1}{M_{i-1}^2 M_1^2}\\
+&=- \Lambda \frac{M_{i-1}M_1 (M_{i+1}-M_iM_1) - M_i M_1 (M_i-M_{i-1}M_1) - M_i M_{i-1} (M_2 - M_1^2) }{M_{i-1}^2 M_1^2}\\
+&=- \Lambda \frac{M_{i-1}M_1 M_{i+1} - M_i M_1 M_i - M_i M_{i-1} M_2 + M_i M_{i-1} M_1^2 }{M_{i-1}^2 M_1^2}\\
+&=- \Lambda \frac{(\kappa_{i+1}+1) M_i M_{i-1} M_1^2  - M_i M_1 M_i - (\kappa_2 +1) M_i M_{i-1} M_1^2 + M_i M_{i-1} M_1^2 }{M_{i-1}^2 M_1^2}\\
+&=- \Lambda \frac{(\kappa_{i+1}+1) M_i M_{i-1} M_1 - (\kappa_i+1) M_{i-1} M_i M_1 - \kappa_2 M_i M_{i-1} M_1}{M_{i-1}^2 M_1}\\
+&=- \Lambda \frac{(\kappa_{i+1}+1) M_i - (\kappa_i+1) M_i - \kappa_2 M_i}{M_{i-1}}\\
+&=- \Lambda M_i \frac{\kappa_{i+1} - (\kappa_2 +\kappa_i)}{M_{i-1}}\\
+&=- \Lambda M_1 (\kappa_i + 1) \{\kappa_{i+1} - (\kappa_2 +\kappa_i)\}\\
 \end{aligned}
 $$
 
-If we let $i = 2$, we have:
+When $i = 2$, we have $\dot{\kappa} = - \Lambda M (\kappa+1)(\kappa_3 - 2 \kappa)$, where $\kappa = \kappa_2$. For gamma distribution, $\kappa_3 = 2 \kappa$. Let's assume that $r = \kappa_3/kappa$ stays constant. Then, we have $\dot{\kappa} = - \Lambda M (r-2) (\kappa+1)(\kappa)$. We can do this:
 
 $$
 \begin{aligned}
-(\kappa_2 + 1)(\kappa_3\kappa_2 - \kappa_2 + \kappa_3) &=T_0\frac{d\kappa_2}{dT_0}\\
+\frac{d\kappa}{dt} &= \frac{d\kappa}{dS}\frac{dS}{dt} \\
+- \Lambda M (r-2) (\kappa+1)(\kappa) &= - \Lambda M S \frac{d\kappa}{dS}\\
+(r-2) (\kappa+1)(\kappa) &= S \frac{d\kappa}{dS}\\
+\frac{(r-2)}{S} &= \frac{1}{\kappa(\kappa+1)} \frac{d\kappa}{dS}\\
+\int \frac{(r-2)}{S} dS &= \int \frac{1}{\kappa(\kappa+1)} d\kappa\\
+(r-2)\log(S) &= \log(\kappa) - \log(\kappa+1) +C\\
 \end{aligned}
 $$
 
-This doesn't work for some reason...It seems like we can't integrate it this way. Assuming that $\kappa_3$ stays constant might be a problem.
+We let the initial values $(S(0) , \kappa(0)) = (1,\hat{\kappa})$, then we have $C = \log(\frac{\hat{\kappa}+1}{\hat{\kappa}})$. We can continue with the derivative:
 
->If we assume that $\kappa_3$ stays constant, we get the following separable differential equation:
->
->$$
+$$
 \begin{aligned}
-\int \frac{1}{T_0} dT_0 &= \int \frac{1}{(\kappa_2 + 1)(\kappa_3\kappa_2 - \kappa_2 + \kappa_3)} d \kappa_2\\
-\int \frac{1}{T_0} dT_0 &= \int ( \frac{1}{\kappa_2+1} + \frac{1-\kappa_3}{\kappa_3\kappa_2 - \kappa_2 + \kappa_3}) d \kappa_2\\
-\ln(T_0) &= \ln(\kappa_2 + 1) - \ln(\kappa_3\kappa_2 - \kappa_2 + \kappa_3) + C\\
+\log(S^{r-2}) &= \log(e^C\frac{\kappa}{\kappa+1})\\
+S^{r-2} &= e^C\frac{\kappa}{\kappa+1}\\
+S^{r-2}(\kappa+1) &= e^C\kappa\\
+S^{r-2} &= (e^C - S^{r-2})\kappa\\
+\kappa &= \frac{S^{r-2}}{e^C - S^{r-2}}\\
 \end{aligned}
 $$
->
->If we set $(\hat{T_0},\hat{\kappa_2}) = (1,\hat{\kappa_2})$, we have $C = \ln(\kappa_3\hat{\kappa}_2 - \hat{\kappa}_2 + \kappa_3) -\ln(\hat{\kappa}_2 + 1)$. Solving the differential equation, we find that
->$$\kappa = \frac{\kappa_3 S - e^C}{(1-\kappa_3)S + e^C}$$, which doesn't work....
-
-
 
 ## SIS example
+
+Here is a simple SIS model: $\dot{S}(a) = \mu(N(a)-S(a)) - \Lambda \sigma(a) S(a)$, where $N(a)$ is the initial distribution of the susceptible individuals in a disease free equilibrium. We are going to define $N_o = T_o(v;N)$. For this model, we have $\dot{T}_i = \mu (N_i - T_i) - \Lambda T_{i+1}$. Using chain rule, we can also get an equation for $M = M_1$:
+
+$$
+\dot{M} = \mu(N_1 - M N_0)/T_0 - \Lambda \kappa M^2
+$$
+
