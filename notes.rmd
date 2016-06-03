@@ -79,6 +79,8 @@ S^{r-2} &= (e^C - S^{r-2})\kappa\\
 \end{aligned}
 $$
 
+How accurate is this approximation?
+
 ## SIS example
 
 Here is a simple SIS model: $\dot{S}(a) = \mu(N(a)-S(a)) - \Lambda \sigma(a) S(a)$, where $N(a)$ is the initial distribution of the susceptible individuals in a disease free equilibrium. We are going to define $N_o = T_o(v;N)$. For this model, we have $\dot{T}_i = \mu (N_i - T_i) - \Lambda T_{i+1}$. Using chain rule, we can also get an equation for $M = M_1$:

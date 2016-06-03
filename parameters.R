@@ -1,12 +1,12 @@
 parms.skeleton <- list(
 	N.diff = 0.01,
-	N.min = N.diff,
+	N.min = 0,
 	N.max = 80,
-	N.vec = seq(N.min,N.max,N.diff),
 	mean = 5,
 	sd = 3,
-	c = N.vec,
 	beta = 0.4,
-	mu = 0
+	mu = 0,
+	iniI = 0.001
 )
 
+class(parms.skeleton) <- c("list", "parlist")
