@@ -7,9 +7,15 @@ expand.parlist <- function(x, FUN,...){
 	x <- within(x,
 		{
 			N.vec = seq(N.min,N.max,N.diff)
+			N.length = length(N.vec)
 			distType = FUN
 			N0 = calcDist(N.vec, mean, sd, distType)
-			CV = sd/mean
+			
+			M1 = sum(N.vec * N0)
+			M2 = sum(N.vec^2 * N0)
+			M3 = sum(N.vec^3 * N0)
+			kappa2 = M2/M1^2 -1
+			kappa3 = M3/(M2 * M1) -1
 		})
 	return(x)
 }

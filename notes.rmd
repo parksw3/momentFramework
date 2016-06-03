@@ -81,6 +81,108 @@ $$
 
 How accurate is this approximation?
 
+```{r load, echo = FALSE, message= FALSE} 
+library("deSolve")
+source("model.R")
+source("distribution.R")
+source("parameters.R")
+source("functions.R")
+tvec = seq(0,20,0.1)
+
+parms.lnorm <- expand(parms.skeleton, FUN = "lnorm")
+
+yini.lnorm.het <- findY(parms.lnorm, type = "hetero")
+```
+
+### Ex 1 - lognormal distribution
+
+Plot of probability distribution function:
+
+```{r}
+plot(parms.lnorm$N0, type = "l")
+
+```
+
+```{r sim}
+r.lnorm.het <- rk(unlist(yini.lnorm.het), func = hetero.model, parms = parms.lnorm, time = tvec)
+
+c <- parms.lnorm$N.vec 
+N.l <- parms.lnorm$N.length
+S.mat <- r.lnorm.het[,2:(N.l+1)]
+totS <- rowSums(S.mat)
+M1 <- rowSums(sweep(S.mat, 2, c, "*"))/rowSums(S.mat)
+M2 <- rowSums(sweep(S.mat, 2, c^2, "*"))/rowSums(S.mat)
+M3 <- rowSums(sweep(S.mat, 2, c^3, "*"))/rowSums(S.mat)
+k2 <- M2/M1^2 -1
+k3 <- M3/(M2 * M1) -1
+```
+
+What does $\kappa_3/\kappa_2$ look like?
+
+```{r plot0}
+plot(k3/k2, type = "l")
+```
+
+How well does our equation approximate $\kappa$?
+
+```{r plot1}
+kappa0 <- k2[1]
+r <- k3[1]/k2[1]
+constant <- log((kappa0 + 1)/kappa0)
+
+kappa.approx <- totS^(r-2)/(exp(constant) - totS^(r-2))
+
+matplot(cbind(k2, kappa.approx), type = "l")
+```
+
+It seems like only the initial trajectory is similar... Also, this is a bad approximation because $CV^2$ goes 0. What happens if we replace $r$ in the equation with $\kappa_3/\kappa_2$ instead of keeping it constant?
+
+```{r plot2}
+r2 <- k3/k2
+kappa.approx2 <- totS^(r2-2)/(exp(constant) - totS^(r2-2))
+
+matplot(cbind(k2, kappa.approx2), type = "l")
+
+```
+
+At least this doesn't cause $\kappa$ to go to 0... Can we approximate $r$ so that $\lim_{S\to 1} r = \hat{r}$ and $\lim_{S\to 0} r = 2$ using a linear equation? $$r \approx (\hat{r}-2)S + 2$$
+
+#### Comparison of 3 simulations
+
+- Heterogeneous model 
+- Approximated model: linear equation for $\kappa_3/\kappa_2$ coupled with approximated equation for $\kappa$
+- Approximated model: constant $\kappa$
+
+```{r sim2, message=  FALSE}
+yini.lnorm.hom <- findY(parms.lnorm, type = "homo")
+
+approx.model.T <- approx.model(parms.lnorm, constantK = TRUE)
+approx.model.F <- approx.model(parms.lnorm, constantK = FALSE)
+
+r.lnorm.app1 <- rk(unlist(yini.lnorm.hom), func = approx.model.T, parms = parms.lnorm, time = tvec)
+r.lnorm.app2 <- rk(unlist(yini.lnorm.hom), func = approx.model.F, parms = parms.lnorm, time = tvec)
+```
+
+Prevalence trajectory
+
+```{r trajPlots}
+matplot(cbind(r.lnorm.het[,N.l+2], r.lnorm.app1[,3], r.lnorm.app2[,3]), type = "l", lwd = 2)
+```
+
+Linear approximation coupled with $\kappa$ approximation seems like it does a fairly good job...
+
+Squared CV
+
+```{r CV2}
+matplot(cbind(r.lnorm.het[,N.l+3], r.lnorm.app1[,4], r.lnorm.app2[,4]),type = "l", lwd =2)
+```
+
+Mean susceptibility
+
+```{r susPlot}
+matplot(cbind(r.lnorm.het[,N.l+4], r.lnorm.app1[,5], r.lnorm.app2[,5]),type = "l", lwd=2)
+```
+
 ## SIS example
 
 Here is a simple SIS model: $\dot{S}(a) = \mu(N(a)-S(a)) - \Lambda \sigma(a) S(a)$, where $N(a)$ is the initial distribution of the susceptible individuals in a disease free equilibrium. We are going to define $N_o = T_o(v;N)$. For this model, we have $\dot{T}_i = \mu (N_i - T_i) - \Lambda T_{i+1}$. Using chain rule, we can also get an equation for $M = M_1$:
