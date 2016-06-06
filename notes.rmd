@@ -79,34 +79,16 @@ S^{r-2} &= (e^C - S^{r-2})\kappa\\
 \end{aligned}
 $$
 
-How accurate is this approximation?
+How accurate is this?
 
-```{r load, echo = FALSE, message= FALSE} 
-library("deSolve")
-source("model.R")
-source("distribution.R")
-source("parameters.R")
-source("functions.R")
-tvec = seq(0,20,0.1)
-
-parms.lnorm <- expand(parms.skeleton, FUN = "lnorm")
-
-yini.lnorm.het <- findY(parms.lnorm, type = "hetero")
+```{r load, echo = FALSE, message= FALSE}
+load("sim1.rda")
 ```
 
 ### Ex 1 - lognormal distribution
 
-Plot of probability distribution function:
-
-```{r}
-plot(parms.lnorm$N0, type = "l")
-
-```
-
-```{r sim}
-r.lnorm.het <- rk(unlist(yini.lnorm.het), func = hetero.model, parms = parms.lnorm, time = tvec)
-
-c <- parms.lnorm$N.vec 
+```{r calc, echo = FALSE}
+c <- parms.lnorm$N.vec
 N.l <- parms.lnorm$N.length
 S.mat <- r.lnorm.het[,2:(N.l+1)]
 totS <- rowSums(S.mat)
@@ -119,13 +101,13 @@ k3 <- M3/(M2 * M1) -1
 
 What does $\kappa_3/\kappa_2$ look like?
 
-```{r plot0}
+```{r plot0, fig.width = 5, fig.height=5}
 plot(k3/k2, type = "l")
 ```
 
 How well does our equation approximate $\kappa$?
 
-```{r plot1}
+```{r plot1, fig.width = 5, fig.height=5}
 kappa0 <- k2[1]
 r <- k3[1]/k2[1]
 constant <- log((kappa0 + 1)/kappa0)
@@ -137,12 +119,11 @@ matplot(cbind(k2, kappa.approx), type = "l")
 
 It seems like only the initial trajectory is similar... Also, this is a bad approximation because $CV^2$ goes 0. What happens if we replace $r$ in the equation with $\kappa_3/\kappa_2$ instead of keeping it constant?
 
-```{r plot2}
+```{r plot2, fig.width = 5, fig.height=5}
 r2 <- k3/k2
 kappa.approx2 <- totS^(r2-2)/(exp(constant) - totS^(r2-2))
 
 matplot(cbind(k2, kappa.approx2), type = "l")
-
 ```
 
 At least this doesn't cause $\kappa$ to go to 0... Can we approximate $r$ so that $\lim_{S\to 1} r = \hat{r}$ and $\lim_{S\to 0} r = 2$ using a linear equation? $$r \approx (\hat{r}-2)S + 2$$
@@ -153,35 +134,14 @@ At least this doesn't cause $\kappa$ to go to 0... Can we approximate $r$ so tha
 - Approximated model: linear equation for $\kappa_3/\kappa_2$ coupled with approximated equation for $\kappa$
 - Approximated model: constant $\kappa$
 
-```{r sim2, message=  FALSE}
-yini.lnorm.hom <- findY(parms.lnorm, type = "homo")
-
-approx.model.T <- approx.model(parms.lnorm, constantK = TRUE)
-approx.model.F <- approx.model(parms.lnorm, constantK = FALSE)
-
-r.lnorm.app1 <- rk(unlist(yini.lnorm.hom), func = approx.model.T, parms = parms.lnorm, time = tvec)
-r.lnorm.app2 <- rk(unlist(yini.lnorm.hom), func = approx.model.F, parms = parms.lnorm, time = tvec)
+```{r plotComparison, fig.width = 15, fig.height=5}
+source("plotFunctions.R")
+baseSim <- list(r.lnorm.het, r.lnorm.app1, r.lnorm.app2)
+name <- c("Heterogeneous", "Approximation 1", "Approximation 2")
+plotSim(baseSim, name)
 ```
 
-Prevalence trajectory
-
-```{r trajPlots}
-matplot(cbind(r.lnorm.het[,N.l+2], r.lnorm.app1[,3], r.lnorm.app2[,3]), type = "l", lwd = 2)
-```
-
-Linear approximation coupled with $\kappa$ approximation seems like it does a fairly good job...
-
-Squared CV
-
-```{r CV2}
-matplot(cbind(r.lnorm.het[,N.l+3], r.lnorm.app1[,4], r.lnorm.app2[,4]),type = "l", lwd =2)
-```
-
-Mean susceptibility
-
-```{r susPlot}
-matplot(cbind(r.lnorm.het[,N.l+4], r.lnorm.app1[,5], r.lnorm.app2[,5]),type = "l", lwd=2)
-```
+Linear extrapolation of the $\kappa_3/\kappa_2$ ratio approximates the prevalence trajectory better sice it matches the initial $\kappa$ trajectory but it doesn't approximate $\kappa$ so well near the equilibrium....
 
 ## SIS example
 

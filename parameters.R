@@ -3,8 +3,8 @@ parms.skeleton <- list(
 	N.min = 0.01,
 	N.max = 80,
 	mean = 4,
-	sd = 3.5,
-	beta = 0.3,
+	sd = 5,
+	beta = 0.2,
 	mu = 0,
 	iniI = 0.001
 )
