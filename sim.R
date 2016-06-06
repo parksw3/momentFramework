@@ -20,9 +20,4 @@ r.lnorm.het <- rk(unlist(yini.lnorm.het), func = hetero.model, parms = parms.lno
 r.lnorm.app1 <- rk(unlist(yini.lnorm.hom), func = approx.model.T, parms = parms.lnorm, time = tvec)
 r.lnorm.app2 <- rk(unlist(yini.lnorm.hom), func = approx.model.F, parms = parms.lnorm, time = tvec)
 
-source("plotFunctions.R")
-baseSim <- list(r.lnorm.het, r.lnorm.app1, r.lnorm.app2)
-name <- c("Heterogeneous", "Approximation 1", "Approximation 2")
-plotSim(baseSim, name)
-
 save("parms.lnorm", "r.lnorm.het", "r.lnorm.app1", "r.lnorm.app2",file="sim1.rda")
