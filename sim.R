@@ -8,8 +8,6 @@ tvec = seq(0,30,0.1)
 
 parms.lnorm <- expand(parms.skeleton, FUN = "lnorm")
 
-plot(parms.lnorm$N0, type = "l")
-
 yini.lnorm.het <- findY(parms.lnorm, type = "hetero")
 yini.lnorm.hom <- findY(parms.lnorm, type = "homo")
 
