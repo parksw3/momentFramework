@@ -1,4 +1,10 @@
+######################################
+#	Old code. Don't need these for now.#
+######################################
+
 findGamma <- function(N, mean, sd){
+	kappa = sd^2/mean^2
+	k = 1/kappa
 	theta = sd^2/mean
 	k = mean/theta
 	dist = dgamma(N, shape = k, scale = theta)
@@ -21,14 +27,3 @@ calcDist <- function(N, mean, sd, FUN = "gamma"){
 	finalDist <- func(N, mean,sd)/sum(func(N, mean,sd))
 	return(finalDist)
 }
-
-## Examples
-
-## N <- seq(0, 80, 0.001)
-## a <- calcDist(N, 6, 4, "gamma")
-## b <- calcDist(N, 6, 4, "lnorm")
-## matplot(cbind(a,b), type = "l")
-## sum(N * a)
-## sum(N * b)
-## sqrt(sum((N-sum(N*a))^2 * a))
-## sqrt(sum((N-sum(N*b))^2 * b))

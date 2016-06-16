@@ -8,9 +8,12 @@ hetero.model <- function(t, yini, parameters){
 		M1 = sum(N.vec * S)/sum(S)
 		M2 = sum(N.vec^2 * S)/sum(S)
 		M3 = sum(N.vec^3 * S)/sum(S)
+		M4 = sum(N.vec^4 * S)/sum(S)
 		kappa2 = M2/M1^2 -1
+		kappa3 = M3/(M2 * M1) - 1
+		kappa4 = M4/(M3 * M1) - 1
 		
-		return(list(c(dS,dI), CV2 = kappa2, meanSus = M1))
+		return(list(c(dS,dI), CV2 = kappa2, kappa3, kappa4, meanSus = M1))
 	})
 }
 

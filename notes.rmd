@@ -54,7 +54,7 @@ $$
 \end{aligned}
 $$
 
-When $i = 2$, we have $\dot{\kappa} = - \Lambda M (\kappa+1)(\kappa_3 - 2 \kappa)$, where $\kappa = \kappa_2$. For gamma distribution, $\kappa_3 = 2 \kappa$. Let's assume that $r = \kappa_3/kappa$ stays constant. Then, we have $\dot{\kappa} = - \Lambda M (r-2) (\kappa+1)(\kappa)$. We can do this:
+When $i = 2$, we have $\dot{\kappa} = - \Lambda M (\kappa+1)(\kappa_3 - 2 \kappa)$, where $\kappa = \kappa_2$. For gamma distribution, $\kappa_3 = 2 \kappa$. Let's assume that $r = \kappa_3/\kappa$ stays constant. Then, we have $\dot{\kappa} = - \Lambda M (r-2) (\kappa+1)(\kappa)$. We can do this:
 
 $$
 \begin{aligned}
@@ -142,6 +142,22 @@ plotSim(baseSim, name)
 ```
 
 Linear extrapolation of the $\kappa_3/\kappa_2$ ratio approximates the prevalence trajectory better sice it matches the initial $\kappa$ trajectory but it doesn't approximate $\kappa$ so well near the equilibrium....
+
+Can we get some understanding for $\kappa_3/\kappa_2$? Equation for $\dot{\kappa}$ shows us that the equilibrium value of $\kappa^* = \kappa_3/2$ but this might give us something else... Given that $\dot{\kappa}_3 = - \Lambda M (\kappa_3+1)(\kappa_4 - (\kappa_2+\kappa_3))$, we can find the equation for the derivative of $r$:
+
+$$
+\begin{aligned}
+\dot{r} &= \frac{\dot{\kappa}_3 \kappa - \dot{\kappa} \kappa_3 }{\kappa^2} \\
+&= - \Lambda M \frac{(\kappa_3+1)(\kappa_4 - (\kappa+\kappa_3)) \kappa - (\kappa+1)(\kappa_3 - 2 \kappa) \kappa_3}{\kappa^2}\\
+&= - \Lambda M \frac{(\kappa_3 \kappa_4 - \kappa\kappa_3 - \kappa_3^2 +\kappa_4 - \kappa - \kappa_3) \kappa - (\kappa \kappa_3 - 2 \kappa^2 + \kappa_3 - 2 \kappa) \kappa_3}{\kappa^2}\\
+&= - \Lambda M \frac{( \kappa\kappa_3 \kappa_4 - \kappa^2 \kappa_3 - \kappa \kappa_3^2 + \kappa\kappa_4 - \kappa^2 -  \kappa\kappa_3) - (\kappa \kappa_3^2 - 2 \kappa^2\kappa_3 + \kappa_3^2 - 2 \kappa\kappa_3) }{\kappa^2}\\
+&= - \Lambda M \frac{\kappa\kappa_3 \kappa_4 - \kappa^2 \kappa_3 - \kappa \kappa_3^2 + \kappa\kappa_4 - \kappa^2 -  \kappa\kappa_3 - \kappa \kappa_3^2 + 2 \kappa^2\kappa_3 - \kappa_3^2 + 2 \kappa\kappa_3}{\kappa^2}\\
+&= - \Lambda M \frac{\kappa\kappa_3 \kappa_4 + \kappa^2 \kappa_3 -2 \kappa \kappa_3^2 + \kappa\kappa_4 - \kappa^2 + \kappa\kappa_3- \kappa_3^2}{\kappa^2}\\
+&= - \Lambda M (\kappa_4 r + \kappa_3 - 2 \kappa_3 r + \frac{\kappa_4}{\kappa_3} r - 1 + r - r^2)\\
+&= - \Lambda M (\frac{\kappa_4}{\kappa_3} \kappa r^2 + \kappa r - 2 \kappa r^2 + \frac{\kappa_4}{\kappa_3} r - 1 + r - r^2)\\
+&= - \Lambda M ((\frac{\kappa_4}{\kappa_3} \kappa - 2\kappa - 1) r^2 +(\frac{\kappa_4}{\kappa_3} + \kappa + 1) r - 1)\\
+\end{aligned}
+$$
 
 ## SIS example
 
