@@ -17,22 +17,11 @@ hetero.model <- function(t, yini, parameters){
 	})
 }
 
-approx.model <- function(parameters, constantK = TRUE){
-	attach(parameters)
-	
-	constant = log((kappa2 + 1)/kappa2)
-	r0 = kappa3/kappa2
-	
-	detach(parameters)
+approx.model <- function(parameters){
 	
 	g <- function(t, yini, parameters){
 		with(as.list(c(yini,parameters)),{
-			 if(constantK == TRUE){
-				K = kappa2
-			}else{
-				r = (r0-2) * S + 2
-				K = S^(r-2)/(exp(constant) - S^(r-2))
-			}
+			K = kappa2
 			
 			sus = mean * (1-I)^K
 			
@@ -45,4 +34,27 @@ approx.model <- function(parameters, constantK = TRUE){
 	return(g)
 }
 
-
+approx.model.r <- function(parameters){
+	attach(parameters)
+	
+	constant = log((kappa2 + 1)/kappa2)
+	r0 = kappa3/kappa2
+	
+	detach(parameters)
+	
+	g <- function(t, yini, parameters){
+		with(as.list(c(yini,parameters)),{
+			
+			r = (r0-2) * S + 2
+			
+			sus = mean * (1-I)^K
+			
+			dS = mu * (1 - S) -sus * S  * beta * I
+			dI = sus * S * beta * I - mu*I
+			dK = -beta * I * sus * (r-2) * (K + 1) * K
+			
+			return(list(c(dS,dI, dK), CV2 = K, meanSus = sus, ratio = r))
+		})
+	}
+	return(g)
+}

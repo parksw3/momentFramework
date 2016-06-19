@@ -93,6 +93,12 @@ findY <- function(parms, type){
 				S = N0 * (1 - iniI),
 				I = iniI
 			)
+		}else if(type == "r.app"){
+			yini <- list(
+				S = 1 - iniI,
+				I = iniI,
+				K = kappa2
+			)
 		}
 		return(yini)
 	})

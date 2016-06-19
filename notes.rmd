@@ -99,36 +99,10 @@ k2 <- M2/M1^2 -1
 k3 <- M3/(M2 * M1) -1
 ```
 
-What does $\kappa_3/\kappa_2$ look like?
-
-```{r plot0, fig.width = 5, fig.height=5}
-plot(k3/k2, type = "l")
-```
-
-How well does our equation approximate $\kappa$?
-
-```{r plot1, fig.width = 5, fig.height=5}
-kappa0 <- k2[1]
-r <- k3[1]/k2[1]
-constant <- log((kappa0 + 1)/kappa0)
-
-kappa.approx <- totS^(r-2)/(exp(constant) - totS^(r-2))
-
-matplot(cbind(k2, kappa.approx), type = "l")
-```
-
-It seems like only the initial trajectory is similar... Also, this is a bad approximation because $CV^2$ goes 0. What happens if we replace $r$ in the equation with $\kappa_3/\kappa_2$ instead of keeping it constant?
-
-```{r plot2, fig.width = 5, fig.height=5}
-r2 <- k3/k2
-kappa.approx2 <- totS^(r2-2)/(exp(constant) - totS^(r2-2))
-
-matplot(cbind(k2, kappa.approx2), type = "l")
-```
-
-At least this doesn't cause $\kappa$ to go to 0... Can we approximate $r$ so that $\lim_{S\to 1} r = \hat{r}$ and $\lim_{S\to 0} r = 2$ using a linear equation? $$r \approx (\hat{r}-2)S + 2$$
-
 #### Comparison of 3 simulations
+
+Linear equation:
+$$r \approx (\hat{r}-2)S + 2$$
 
 - Heterogeneous model 
 - Approximated model: linear equation for $\kappa_3/\kappa_2$ coupled with approximated equation for $\kappa$
@@ -141,7 +115,13 @@ name <- c("Heterogeneous", "Approximation 1", "Approximation 2")
 plotSim(baseSim, name)
 ```
 
-Linear extrapolation of the $\kappa_3/\kappa_2$ ratio approximates the prevalence trajectory better sice it matches the initial $\kappa$ trajectory but it doesn't approximate $\kappa$ so well near the equilibrium....
+Linear extrapolation of the $\kappa_3/\kappa_2$ ratio approximates the prevalence trajectory better sice it matches the initial $\kappa$ trajectory but it doesn't approximate $\kappa$ so well near the equilibrium.... How does $r$ vs $S$ look like?
+
+```{r plotR}
+
+plot(cbind(totS, r= k3/k2), type = "l")
+lines(cbind(totS,( k3[1]/k2[1] - 2)*totS + 2), col = 2)
+```
 
 Can we get some understanding for $\kappa_3/\kappa_2$? Equation for $\dot{\kappa}$ shows us that the equilibrium value of $\kappa^* = \kappa_3/2$ but this might give us something else... Given that $\dot{\kappa}_3 = - \Lambda M (\kappa_3+1)(\kappa_4 - (\kappa_2+\kappa_3))$, we can find the equation for the derivative of $r$:
 
@@ -159,11 +139,52 @@ $$
 \end{aligned}
 $$
 
+or...we can do this...
+
+$$
+\begin{aligned}
+\dot{r} &= \frac{\dot{\kappa}_3}{\kappa} - \frac{\dot{\kappa}\kappa_3}{\kappa^2}\\
+&= - \Lambda M (\kappa_3 + 1)(\frac{\kappa_4}{\kappa_3}r - (1+r)) + \Lambda M (\kappa + 1)(r - 2) r
+\end{aligned}
+$$
+
+
+
 ## SIS example
 
-Here is a simple SIS model: $\dot{S}(a) = \mu(N(a)-S(a)) - \Lambda \sigma(a) S(a)$, where $N(a)$ is the initial distribution of the susceptible individuals in a disease free equilibrium. We are going to define $N_o = T_o(v;N)$. For this model, we have $\dot{T}_i = \mu (N_i - T_i) - \Lambda T_{i+1}$. Using chain rule, we can also get an equation for $M = M_1$:
+Here is a simple SIS model: $\dot{S}(a) = \mu(N(a)-S(a)) - \Lambda \sigma(a) S(a)$, where $N(a)$ is the initial distribution of the susceptible individuals in a disease free equilibrium. We are going to define $T_o(N) = T_o(v;N)$. For this model, we have $\dot{T}_i = \mu (T_i(N) - T_i) - \Lambda T_{i+1}$. Using chain rule, we can also get an equation for $M = M_1$:
 
 $$
-\dot{M} = \mu(N_1 - M N_0)/T_0 - \Lambda \kappa M^2
+\begin{aligned}
+\dot{M}_i &= \frac{\dot{T}_i}{T_0} - \frac{\dot{T_0} T_i}{T_0^2}\\
+&= (\mu (T_i (N)/T_0 -M_i) - \Lambda M_{i+1}) - \mu(M_i T_0 (N)/T_0 - M_i) + \Lambda M_i M_1\\
+&= \mu (M_i (N) - M_i) \frac{T_0 (N)}{T_0} - \Lambda (M_{i+1} - M_i M_1)\\
+&= \mu (M_i (N) - M_i)/T_0 - \Lambda \kappa_{i+1} M_i M_1\\
+\end{aligned}
 $$
 
+Can we get some understanding for $\kappa$?
+
+$$
+\begin{aligned}
+\dot{\kappa}_i &=\frac{M_{i-1}M_1 \dot{M}_i - M_i M_1 \dot{M}_{i-1} - M_i M_{i-1} \dot{M}_1}{M_{i-1}^2 M_1^2}\\
+&=\mu \frac{M_{i-1}M_1 (M_i (N) - M_i) - M_i M_1 (M_{i-1} (N) - M_{i-1}) - M_i M_{i-1} (M_1 (N) - M_1)}{M_{i-1}^2 M_1^2 T_0} \\&- \Lambda M_1(\kappa_i + 1)\{\kappa_{i+1} - (\kappa + \kappa_i)\}\\
+&=\mu \frac{M_{i-1}M_1 M_i (N) - M_i M_1 M_{i-1} (N) - M_i M_{i-1} M_1 (N) + M_1 M_{i-1} M_i}{M_{i-1}^2 M_1^2 T_0} \\&- \Lambda M_1(\kappa_i + 1)\{\kappa_{i+1} - (\kappa + \kappa_i)\}\\
+&=\mu \frac{M_{i-1}M_1 M_i (N) - M_i M_1 M_{i-1} (N) - M_i M_{i-1} M_1 (N)}{M_{i-1}^2 M_1^2 T_0} \\
+&+\mu \frac{\kappa_i + 1}{T_0} - \Lambda M_1(\kappa_i + 1)\{\kappa_{i+1} - (\kappa + \kappa_i)\}\\
+&=\mu \frac{(\kappa_i (N) + 1) M_{i-1}(N)M_1(N) - (\kappa_i + 1)  M_1 M_{i-1} (N) - (\kappa_i + 1) M_{i-1} M_1 (N)}{M_{i-1} M_1 T_0} \\
+&+\mu \frac{\kappa_i + 1}{T_0} - \Lambda M_1(\kappa_i + 1)\{\kappa_{i+1} - (\kappa + \kappa_i)\}\\
+&=\mu \frac{(\kappa_i (N) + 1) M_{i-1}(N)M_1(N)}{M_{i-1} M_1 T_0} - \mu \frac{(\kappa_i + 1)M_{i-1} (N)}{M_{i-1} T_0} - \mu \frac{(\kappa_i + 1) M_1 (N)}{M_1 T_0} \\
+&+\mu \frac{\kappa_i + 1}{T_0} - \Lambda M_1(\kappa_i + 1)\{\kappa_{i+1} - (\kappa + \kappa_i)\}\\
+&=\frac{\mu}{T_0}( \frac{(\kappa_i (N) + 1) M_{i-1}(N)M_1(N)}{M_{i-1} M_1} -\frac{(\kappa_i + 1)M_{i-1} (N)}{M_{i-1}}  - \frac{(\kappa_i + 1) M_1 (N)}{M_1} +\kappa_i + 1)\\
+&- \Lambda M_1(\kappa_i + 1)\{\kappa_{i+1} - (\kappa + \kappa_i)\}\\
+\end{aligned}
+$$
+
+When $i = 2$, we have 
+
+$$
+\begin{aligned}
+\dot{\kappa}&=\frac{\mu}{T_0}( \frac{(\kappa (N) + 1) M_1(N)^2}{M_1^2} -2\frac{(\kappa + 1)M_1 (N)}{M_1} +\kappa + 1)- \Lambda M_1(\kappa + 1)(\kappa_3 - 2\kappa)\\
+\end{aligned}
+$$
