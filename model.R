@@ -13,7 +13,7 @@ hetero.model <- function(t, yini, parameters){
 		kappa3 = M3/(M2 * M1) - 1
 		kappa4 = M4/(M3 * M1) - 1
 		
-		return(list(c(dS,dI), CV2 = kappa2, kappa3, kappa4, meanSus = M1))
+		return(list(c(dS,dI), CV2 = kappa2, kappa3 = kappa3, kappa4 = kappa4, meanSus = M1, totS = sum(S)))
 	})
 }
 

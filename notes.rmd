@@ -163,6 +163,46 @@ $$
 \end{aligned}
 $$
 
+When $i = 1$, $\dot{M} = \mu (M_1 (N) - M_1)/T_0 - \Lambda \kappa M_1^2$... What can we do with this? 
+
+### Idea 1
+
+I want to know if we can approximate $M_i(N)/M_i$. This term appears in the $\kappa$ equation and maybe we can do something about it:
+
+$$
+\begin{aligned}
+\frac{d}{dt}(\frac{M_i(N)}{M_i}) &= -\frac{M_i(N)}{M_i^2} \dot{M}_i\\
+&= -\frac{M_i(N)}{M_i^2} \{ \mu (M_i (N) - M_i)/T_0 - \Lambda \kappa_{i+1} M_i M_1 \} \\
+&= -\frac{M_i(N)}{M_i} \{ \mu (\frac{M_i (N)}{M_i} - 1)/T_0 - \Lambda \kappa_{i+1} M_1 \}\\
+\end{aligned}
+$$
+
+If we let $i = 1$ and $R = M(N)/M$ and, we have the following equations:
+
+$$\dot{R} = -R \{ \mu (R - 1)/T_0 - \Lambda \kappa M\}$$
+
+We can substitute $M = M(N)/R$:
+
+$$
+\begin{aligned}
+\dot{R} &= -R \{ \mu (R - 1)/T_0 - \Lambda \kappa M(N)/R\}\\
+&= \Lambda \kappa M(N) -R \mu (R - 1)/T_0 \\
+\end{aligned}
+$$
+
+We also know that since $1/T_0 = \frac{M_1(N)}{RT_1}$. Substituting this gives us
+
+$$
+\begin{aligned}
+\dot{R} &= \Lambda \kappa M(N) -\mu (R - 1) \frac{M_1(N)}{T_1} \\
+&= \Lambda \kappa M(N) -\mu (R - 1) \frac{M(N)}{T_1}\\
+&= M(N)(\Lambda \kappa -\mu (R - 1)/T_1)
+\end{aligned}
+$$
+
+Can we relate this to $\dot{T_0} = \mu (1 - T_0) - \Lambda T_1$?
+
+
 Can we get some understanding for $\kappa$?
 
 $$
@@ -186,5 +226,66 @@ When $i = 2$, we have
 $$
 \begin{aligned}
 \dot{\kappa}&=\frac{\mu}{T_0}( \frac{(\kappa (N) + 1) M_1(N)^2}{M_1^2} -2\frac{(\kappa + 1)M_1 (N)}{M_1} +\kappa + 1)- \Lambda M_1(\kappa + 1)(\kappa_3 - 2\kappa)\\
+&=\frac{\mu}{T_0}( \frac{(\kappa (N) + 1) M_1(N)^2}{M_1^2} -2\frac{(\kappa + 1)M_1 (N)}{M_1} +\kappa + 1)- \Lambda M_1(\kappa + 1)(\kappa_3 - 2\kappa)\\
 \end{aligned}
 $$
+
+Using $R$ defined above, we have:
+
+$$
+\begin{aligned}
+\dot{\kappa}&=\frac{\mu}{T_0}((\kappa (N) + 1) R^2 -2(\kappa + 1)R +\kappa + 1)- \Lambda M_1(\kappa + 1)(\kappa_3 - 2\kappa)\\
+\end{aligned}
+$$
+
+It doesn't seem like this is useful...
+
+### Idea 2
+
+Can we see how accurate $M = \hat{M}T_0^\kappa$ is for SIS model?
+
+$$
+\begin{aligned}
+\dot{M} &= \frac{dM}{dT_0} \frac{dT_0}{dt}\\
+&= \kappa \hat{M} T_0^{\kappa-1} \{ \mu (1 - T_0) - \Lambda T_1\}\\
+&= \mu \kappa \hat{M} T_0^{\kappa-1} - \mu\kappa \hat{M} T_0^\kappa - \Lambda \kappa \hat{M} T_0^{\kappa-1} T_1\\
+&= \mu \kappa \hat{M} T_0^\kappa /T_0 - \mu\kappa M - \Lambda \kappa \hat{M} T_0^{\kappa-1} M T_0\\
+&= \mu  \kappa M/T_0 - \mu\kappa M - \Lambda \kappa M^2\\
+&= \mu  (\kappa M - \kappa M T_0)/T_0 - \Lambda \kappa M^2\\
+\end{aligned}
+$$
+
+
+### Idea 3
+
+$$
+\begin{aligned}
+\dot{T} &= \mu (1 - T) - \Lambda T_1\\
+\dot{M} &= \mu (M (N) - M)/T - \Lambda \kappa M^2
+\end{aligned}
+$$
+
+Can we do this?
+
+$$
+\begin{aligned}
+\frac{dM}{dt} &= \frac{dM}{dT} \frac{dT}{dt} \\
+\mu (M (N) - M)/T - \Lambda \kappa M^2 &= (\mu (1 - T) - \Lambda T_1) \frac{dM}{dT}\\
+\end{aligned}
+$$
+
+Random notes:
+
+$$
+\begin{aligned}
+M &= T_1/T_0\\
+\dot{T}_1 &= \mu (T_1(N) - T_1) - \Lambda T_2\\
+\dot{T} &= \mu (1 - T) - \Lambda T_1\\
+\end{aligned}
+$$
+
+Suppose $\kappa_3$ stays constant. How do we define $\kappa_3$?
+
+$$\kappa_3 + 1 = M_3M_1/M_2^2$$
+
+
