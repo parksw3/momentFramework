@@ -5,7 +5,7 @@ parms.skeleton <- list(
 	mean = 4,
 	sd = 5,
 	beta = 0.2,
-	mu = 0,
+	mu = 0.4,
 	iniI = 0.001
 )
 
