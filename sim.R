@@ -41,9 +41,9 @@ parms.CV3 <- makeHetero(targetCV = 3, parms.skeleton2)
 yini.CV1 <- findY(parms.CV1, type = "hetero")
 yini.CV2 <- findY(parms.CV2, type = "hetero")
 yini.CV3 <- findY(parms.CV3, type = "hetero")
-yini.app1 <- findY(parms.CV1, type = "r.app")
-yini.app2 <- findY(parms.CV2, type = "r.app")
-yini.app3 <- findY(parms.CV3, type = "r.app")
+yini.app1 <- findY(parms.CV1, type = "homo")
+yini.app2 <- findY(parms.CV2, type = "homo")
+yini.app3 <- findY(parms.CV3, type = "homo")
 
 approx.model.CV1 <- approx.model(parms.CV1)
 approx.model.CV2 <- approx.model(parms.CV2)
@@ -53,8 +53,12 @@ lin.approx.model.CV2 <- approx.model.r(parms.CV2)
 lin.approx.model.CV3 <- approx.model.r(parms.CV3)
 
 r.het.CV1 <- rk(unlist(yini.CV1), func = hetero.model, parms = parms.CV1, time = tvec)
-r.app.CV1 <- rk(unlist(yini.app1), func = lin.approx.model.CV1, parms = parms.CV1, time = tvec)
+r.app.CV1 <- rk(unlist(yini.app1), func = approx.model.CV1, parms = parms.CV1, time = tvec)
 r.het.CV2 <- rk(unlist(yini.CV2), func = hetero.model, parms = parms.CV2, time = tvec)
-r.app.CV2 <- rk(unlist(yini.app2), func = lin.approx.model.CV2, parms = parms.CV2, time = tvec)
+r.app.CV2 <- rk(unlist(yini.app2), func = approx.model.CV2, parms = parms.CV2, time = tvec)
 r.het.CV3 <- rk(unlist(yini.CV3), func = hetero.model, parms = parms.CV3, time = tvec)
-r.app.CV3 <- rk(unlist(yini.app3), func = lin.approx.model.CV3, parms = parms.CV3, time = tvec)
+r.app.CV3 <- rk(unlist(yini.app3), func = approx.model.CV3, parms = parms.CV3, time = tvec)
+
+###
+
+
