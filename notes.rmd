@@ -40,52 +40,13 @@ $$
 \end{aligned}
 $$
 
-When $i = 2$, we have $\dot{\kappa} = - \Lambda M (\kappa+1)(\kappa_3 - 2 \kappa)$, where $\kappa = \kappa_2$. For gamma distribution, $\kappa_3 = 2 \kappa$. Let's assume that $r = \kappa_3/\kappa$ stays constant. Then, we have $\dot{\kappa} = - \Lambda M (r-2) (\kappa+1)(\kappa)$. We can do this:
-
-$$
-\begin{aligned}
-\frac{d\kappa}{dt} &= \frac{d\kappa}{dS}\frac{dS}{dt} \\
-- \Lambda M (r-2) (\kappa+1)(\kappa) &= - \Lambda M S \frac{d\kappa}{dS}\\
-(r-2) (\kappa+1)(\kappa) &= S \frac{d\kappa}{dS}\\
-\frac{(r-2)}{S} &= \frac{1}{\kappa(\kappa+1)} \frac{d\kappa}{dS}\\
-\int \frac{(r-2)}{S} dS &= \int \frac{1}{\kappa(\kappa+1)} d\kappa\\
-(r-2)\log(S) &= \log(\kappa) - \log(\kappa+1) +C\\
-\end{aligned}
-$$
-
-We let the initial values $(S(0) , \kappa(0)) = (1,\hat{\kappa})$, then we have $C = \log(\frac{\hat{\kappa}+1}{\hat{\kappa}})$. We can continue with the derivative:
-
-$$
-\begin{aligned}
-\log(S^{r-2}) &= \log(e^C\frac{\kappa}{\kappa+1})\\
-S^{r-2} &= e^C\frac{\kappa}{\kappa+1}\\
-S^{r-2}(\kappa+1) &= e^C\kappa\\
-S^{r-2} &= (e^C - S^{r-2})\kappa\\
-\kappa &= \frac{S^{r-2}}{e^C - S^{r-2}}\\
-\end{aligned}
-$$
-
 How accurate is this?
 
 ```{r load, echo = FALSE, message= FALSE}
-load("sim1.rda")
+load("SI_sim.rda")
 ```
 
 ### Ex 1 - lognormal distribution
-
-```{r calc, echo = FALSE}
-c <- parms.lnorm$N.vec
-N.l <- parms.lnorm$N.length
-S.mat <- r.lnorm.het[,2:(N.l+1)]
-totS <- rowSums(S.mat)
-M1 <- rowSums(sweep(S.mat, 2, c, "*"))/rowSums(S.mat)
-M2 <- rowSums(sweep(S.mat, 2, c^2, "*"))/rowSums(S.mat)
-M3 <- rowSums(sweep(S.mat, 2, c^3, "*"))/rowSums(S.mat)
-k2 <- M2/M1^2 -1
-k3 <- M3/(M2 * M1) -1
-```
-
-#### Comparison of 3 simulations
 
 Linear equation:
 $$r \approx (\hat{r}-2)S + 2$$
@@ -96,17 +57,8 @@ $$r \approx (\hat{r}-2)S + 2$$
 
 ```{r plotComparison, fig.width = 15, fig.height=5}
 source("plotFunctions.R")
-baseSim <- list(r.lnorm.het, r.lnorm.app1, r.lnorm.app2)
 name <- c("Heterogeneous", "Approximation 1", "Approximation 2")
-plotSim(baseSim, name)
-```
-
-Linear extrapolation of the $\kappa_3/\kappa_2$ ratio approximates the prevalence trajectory better sice it matches the initial $\kappa$ trajectory but it doesn't approximate $\kappa$ so well near the equilibrium.... How does $r$ vs $S$ look like?
-
-```{r plotR}
-
-plot(cbind(totS, r= k3/k2), type = "l")
-lines(cbind(totS,( k3[1]/k2[1] - 2)*totS + 2), col = 2)
+plotSim(SI.list.lnorm, name)
 ```
 
 ## SIS model
@@ -143,3 +95,21 @@ $$
 $$
 
 
+
+```{r SIS, fig.width = 15, fig.height=5}
+load("SIS_sim.rda")
+plotSim(SIS.list.lnorm, name)
+
+```
+
+Approximation 1: 
+
+- Constant $\kappa$
+- $M = \hat{M}S^\kappa$
+
+Approximation 2:
+
+- $\dot{\varphi}=\varphi\{\frac{\rho}{T_0}(\frac{(\bar{\varphi}-\varphi)\bar{M}_1^2 + \varphi (\bar{M}_1 - M_1)^2}{\varphi M_1^2})$
+- $\dot{M} = \rho (\bar{M}_1 - M_1)/T_0 - \Lambda \kappa M_1^2$
+
+We should probably try another simulation with constant $\kappa$ coupled with the differential equation for $M$...

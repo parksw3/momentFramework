@@ -3,8 +3,8 @@ summarizeSim <- function(dat){
 	return(data.frame(
 			time = df$time,
 			Prevalence = df$I,
-			kappa = df$CV2,
-			susceptibility = df$meanSus
+			kappa = df$kappa2,
+			susceptibility = df$M
 		))
 }
 
@@ -30,8 +30,3 @@ plotSim <- function(simList, listName){
 		scale_colour_manual(values=cbPalette)
 	)
 }
-
-#simList <- list(r.het.CV1, r.het.CV2, r.het.CV3, r.app.CV1, r.app.CV2, r.app.CV3)
-#listName <- c("1", "2", "3", "4", "5", "6")
-
-#plotSim(simList, listName)

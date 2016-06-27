@@ -1,17 +1,30 @@
-parms.skeleton <- list(
+parms.SI <- list(
 	N.diff = 0.01,
 	N.min = 0.01,
 	N.max = 80,
-	mean = 4,
-	sd = 5,
+	mean = 3,
+	sd = 2,
 	beta = 0.2,
+	rho = 0,
+	iniI = 0.001
+)
+
+class(parms.SI) <- c("list", "parlist")
+
+parms.SIS <- list(
+	N.diff = 0.01,
+	N.min = 0.01,
+	N.max = 80,
+	mean = 3,
+	sd = 2,
+	beta = 0.7,
 	rho = 0.4,
 	iniI = 0.001
 )
 
-class(parms.skeleton) <- c("list", "parlist")
+class(parms.SIS) <- c("list", "parlist")
 
-parms.skeleton2 <- list(
+parms.highCV <- list(
 	mean = 1,
 	beta = 0.8,
 	rho = 0,

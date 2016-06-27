@@ -20,15 +20,12 @@ hetero.model <- function(parameters){
 			M4 = sum(N.vec^4 * S)/sum(S)
 			kappa2 = M2/M1^2 -1
 			kappa3 = M3/(M2 * M1) - 1
-			kappa4 = M4/(M3 * M1) - 1
 			
-			return(list(c(dS,dI), kappa2 = kappa2, kappa3 = kappa3, kappa4 = kappa4, M = M1, totS = sum(S)))
+			return(list(c(dS,dI), kappa2 = kappa2, kappa3 = kappa3, M = M1, totS = sum(S)))
 		})
 	}
 	return(g)
 }
-
-
 
 approx.model <- function(parameters){
 	attach(parameters)
@@ -54,7 +51,7 @@ approx.model <- function(parameters){
 	return(g)
 }
 
-approx.model.r <- function(parameters){
+approx.model.lin <- function(parameters){
 	attach(parameters)
 	
 	if(rho > 0){
