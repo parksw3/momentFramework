@@ -106,3 +106,27 @@ approx.model.SIS <- function(parameters){
 	}
 	return(g)
 }
+
+approx.model.SIS2 <- function(parameters){
+	attach(parameters)
+	
+	if(rho > 0){
+		gamma = 1
+	}else{
+		gamma = 0
+	}
+	
+	detach(parameters)
+	
+	g <- function(t, yini, parameters){
+		with(as.list(c(yini,parameters)),{
+			
+			dS = rho * (1 - S) -M * S  * beta * I
+			dI = M * S * beta * I - gamma * I
+			dM = rho * (M_N - M)/S - beta * I * kappa2 * M^2
+			
+			return(list(c(dS,dI, dM), kappa2 = kappa2))
+		})
+	}
+	return(g)
+}

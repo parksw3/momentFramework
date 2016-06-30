@@ -94,8 +94,6 @@ $$
 \end{aligned}
 $$
 
-
-
 ```{r SIS, fig.width = 15, fig.height=5}
 load("SIS_sim.rda")
 plotSim(SIS.list.lnorm, name)
@@ -112,4 +110,22 @@ Approximation 2:
 - $\dot{\varphi}=\varphi\{\frac{\rho}{T_0}(\frac{(\bar{\varphi}-\varphi)\bar{M}_1^2 + \varphi (\bar{M}_1 - M_1)^2}{\varphi M_1^2})$
 - $\dot{M} = \rho (\bar{M}_1 - M_1)/T_0 - \Lambda \kappa M_1^2$
 
-We should probably try another simulation with constant $\kappa$ coupled with the differential equation for $M$...
+Another set of simulations that is similar to the one above:
+
+```{r SIS2, fig.width = 15, fig.height=5}
+load("SIS_sim2.rda")
+plotSim(SIS.list.lnorm2, name)
+```
+
+Approximation 1: 
+
+- Constant $\kappa$
+- $\dot{M} = \rho (\bar{M}_1 - M_1)/T_0 - \Lambda \kappa M_1^2$
+
+Approximation 2:
+
+- $\dot{\varphi}=\varphi\{\frac{\rho}{T_0}(\frac{(\bar{\varphi}-\varphi)\bar{M}_1^2 + \varphi (\bar{M}_1 - M_1)^2}{\varphi M_1^2})$
+- $\dot{M} = \rho (\bar{M}_1 - M_1)/T_0 - \Lambda \kappa M_1^2$
+
+Holding $\kappa_3$ constant does a horrible job so I got rid of it
+

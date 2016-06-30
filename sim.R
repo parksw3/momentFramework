@@ -9,11 +9,19 @@ tvec <- seq(0,30,0.1)
 parms.lnorm.SI <- expand(parms.SI, FUN = "lnorm")
 parms.lnorm.SIS <- expand(parms.SIS, FUN = "lnorm")
 
-SI.list.lnorm <- simulate(tvec, parms.lnorm.SI)
-SIS.list.lnorm <- simulate(tvec, parms.lnorm.SIS, SIS = TRUE)
+SI.list.lnorm <- simulate(tvec, parms.lnorm.SI, type = "SI")
+SIS.list.lnorm <- simulate(tvec, parms.lnorm.SIS, type = "SIS1")
+SIS.list.lnorm2 <- simulate(tvec, parms.lnorm.SIS, type = "SIS2")
 
 save("parms.lnorm.SI", "SI.list.lnorm",file="SI_sim.rda")
 save("parms.lnorm.SIS", "SIS.list.lnorm",file="SIS_sim.rda")
+save("parms.lnorm.SIS", "SIS.list.lnorm2",file="SIS_sim2.rda")
+
+###
+
+source("plotFunctions.R")
+name <- c("Heterogeneous", "Approximation 1", "Approximation 2")
+plotSim(SIS.list.lnorm, name)
 
 ###new code
 

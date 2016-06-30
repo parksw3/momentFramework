@@ -133,7 +133,14 @@ findY <- function(parms, type){
 				M = mean,
 				phi = kappa2 + 1
 			)
+		}else if(type == "SIS.app2"){
+			yini <- list(
+				S = 1 - iniI,
+				I = iniI,
+				M = mean
+			)
 		}
+		
 		return(yini)
 	})
 }
