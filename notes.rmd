@@ -135,21 +135,21 @@ I'm going to make same figure as the one above with difference distributions
 
 1) $f(x) = 1/(1+x)^4$ and $\kappa = 1$
 
-```{r}
+```{r fig.width = 15, fig.height=5}
 load("SIS_simCV1.rda")
 plotSim(SIS.list.CV1, name)
 ```
 
 2) $f(x) = 1/(1+x^2)$ and $\kappa = 2$
 
-```{r}
+```{r fig.width = 15, fig.height=5}
 load("SIS_simCV2.rda")
 plotSim(SIS.list.CV2, name)
 ```
 
 3) $f(x) = 1/(1+x)$ and $\kappa = 3$
 
-```{r}
+```{r fig.width = 15, fig.height=5}
 load("SIS_simCV3.rda")
 plotSim(SIS.list.CV3, name)
 ```
