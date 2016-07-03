@@ -25,8 +25,8 @@ parms.SIS <- list(
 class(parms.SIS) <- c("list", "parlist")
 
 parms.highCV <- list(
-	mean = 1,
-	beta = 0.8,
-	rho = 0,
-	iniI = 0.0001
+	mean = 3,
+	beta = 0.7,
+	rho = 0.4,
+	iniI = 0.001
 )

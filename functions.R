@@ -70,9 +70,9 @@ newMean <- function(Amax, FUN, targetCV){
 	N <- FUN(a)
 	CV <- findCV(a, N)
 	if(CV < targetCV){
-		interval <- c(0.0001,1)
+		interval <- c(0.000001,1)
 	}else{
-		interval <- c(1,100)
+		interval <- c(1,1000)
 	}
 	B <- uniroot(function(x)
 		findCV(a,FUN(a/x)) - targetCV
@@ -86,7 +86,7 @@ makeHetero <- function(targetCV, x){
 	with(as.list(c(x)),{
 		targetMean = mean
 		FUN = paste0("f", targetCV)
-		interval = c(2,20)
+		interval = c(2,40)
 		
 		x <- within(x,{
 			Amax = uniroot(function(y)
@@ -102,6 +102,8 @@ makeHetero <- function(targetCV, x){
 			M3 = sum(N.vec^3 * N0)
 			kappa2 = M2/M1^2 -1
 			kappa3 = M3/(M2 * M1) -1
+			M_N = M1
+			phi_N = kappa2 + 1
 		})
 		return(x)		
 	})
