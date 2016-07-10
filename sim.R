@@ -21,7 +21,7 @@ save("parms.lnorm.SIS", "SIS.list.lnorm2",file="SIS_sim2.rda")
 
 source("plotFunctions.R")
 name <- c("Heterogeneous", "Approximation 1", "Approximation 2")
-plotSim(SIS.list.CV1, name)
+plotSim(SIS.list.lnorm3, name)
 
 ###new code
 

@@ -10,13 +10,14 @@ expand.parlist <- function(x, FUN,...){
 		distType = FUN
 		N0 = calcDist(N.vec, mean, sd, distType)
 	
-		M1 = sum(N.vec * N0)
-		M2 = sum(N.vec^2 * N0)
-		M3 = sum(N.vec^3 * N0)
-		kappa2 = M2/M1^2 -1
-		kappa3 = M3/(M2 * M1) -1
-		M_N = M1
+		M_N = sum(N.vec * N0)
+		M_N2 = sum(N.vec^2 * N0)
+		M_N3 = sum(N.vec^3 * N0)
+		kappa2 = M_N2/M_N^2 -1
+		kappa3 = M_N3/(M_N2 * M_N) -1
+		
 		phi_N = kappa2 + 1
+		phi_N3 = kappa3 + 1
 	})
 	return(x)
 }
@@ -97,13 +98,14 @@ makeHetero <- function(targetCV, x){
 			k = 1/sum(get(FUN)(N.vec/B))
 			N0 = k * get(FUN)(N.vec/B)
 			
-			M1 = sum(N.vec * N0)
-			M2 = sum(N.vec^2 * N0)
-			M3 = sum(N.vec^3 * N0)
-			kappa2 = M2/M1^2 -1
-			kappa3 = M3/(M2 * M1) -1
-			M_N = M1
+			M_N = sum(N.vec * N0)
+			M_N2 = sum(N.vec^2 * N0)
+			M_N3 = sum(N.vec^3 * N0)
+			kappa2 = M_N2/M_N^2 -1
+			kappa3 = M_N3/(M_N2 * M_N) -1
+			
 			phi_N = kappa2 + 1
+			phi_N3 = kappa3 + 1
 		})
 		return(x)		
 	})
@@ -142,7 +144,6 @@ findY <- function(parms, type){
 				M = mean
 			)
 		}
-		
 		return(yini)
 	})
 }

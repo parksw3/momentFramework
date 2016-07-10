@@ -21,7 +21,7 @@ hetero.model <- function(parameters){
 			kappa2 = M2/M1^2 -1
 			kappa3 = M3/(M2 * M1) - 1
 			
-			return(list(c(dS,dI), kappa2 = kappa2, kappa3 = kappa3, M = M1, totS = sum(S)))
+			return(list(c(dS,dI), kappa2 = kappa2, kappa3 = kappa3, M = M1, totS = sum(S), dM2 = dM2))
 		})
 	}
 	return(g)

@@ -153,3 +153,25 @@ plotSim(SIS.list.CV2, name)
 load("SIS_simCV3.rda")
 plotSim(SIS.list.CV3, name)
 ```
+
+Why can't we keep $\varphi_3$ constant?
+
+Let's try to get some understanding for $\varphi_3$.
+
+$\varphi_i = \frac{M_i}{M_{i-1}M_1}$
+
+$$
+\begin{aligned}
+\log{\varphi_3} &= \log{\frac{M_3}{M_2M_1}}\\
+\dot{\varphi}_3 &= \varphi_3 (\frac{\dot{M}_3}{M_3} - \frac{\dot{M}_2}{M_2} - \frac{\dot{M_1}}{M_1})\\
+&= \varphi_3 (\frac{\rho}{T_0}(\frac{\bar{M}_3 - M_3}{M_3} - \frac{\bar{M}_2-M_2}{M_2} - \frac{\bar{M}_1-M_1}{M_1}) - \Lambda \kappa_4 M_1 + \Lambda \kappa_3 M_1 + \Lambda \kappa_2 M_1)\\
+&= \varphi_3 (\frac{\rho}{T_0}(\frac{\bar{M}_3 - M_3}{M_3} - \frac{\bar{M}_2-M_2}{M_2} - \frac{\bar{M}_1-M_1}{M_1}) - \Lambda (\varphi_4 - \varphi_3- \varphi_2+1)M_1)\\
+&= \varphi_3 (\frac{\rho}{T_0}(\frac{\bar{M}_3}{M_3} - \frac{\bar{M}_2}{M_2} - \frac{\bar{M}_1}{M_1} + 1) - \Lambda (\varphi_4 - \varphi_3- \varphi_2+1)M_1)\\
+&= \varphi_3 (\frac{\rho}{T_0}(\frac{\bar{M}_3}{M_3} - \frac{\bar{M}_2}{M_2} - \frac{\bar{M}_1}{M_1} + 1) - \Lambda (\varphi_4 - \varphi_3- \varphi_2+1)M_1)\\
+&= \varphi_3 (\frac{\rho}{T_0}(\frac{\bar{\varphi}_3 \bar{M}_2 \bar{M}_1}{\varphi_3 M_2 M_1} - \frac{\bar{\varphi}_2 \bar{M}_1^2}{\varphi_2 M_1^2} - \frac{\bar{M}_1}{M_1} + 1) - \Lambda (\varphi_4 - \varphi_3- \varphi_2+1)M_1)\\
+&= \varphi_3 (\frac{\rho}{T_0}(\frac{\bar{\varphi}_3 \bar{\varphi}_2 \bar{M}_1^3}{\varphi_3 \varphi_2 M_1^3} - \frac{\bar{\varphi}_2 \bar{M}_1^2}{\varphi_2 M_1^2} - \frac{\bar{M}_1}{M_1} + 1) - \Lambda (\varphi_4 - \varphi_3- \varphi_2+1)M_1)\\
+&= \varphi_3 (\frac{\rho}{T_0}(\frac{\bar{\varphi}_3 \bar{\varphi}_2 \bar{M}_1^3 - \bar{\varphi}_2 \varphi_3 \bar{M}_1^2 M_1 - \varphi_3 \varphi_2 M_1^2 + \varphi_3 \varphi_2 M_1^3}{\varphi_3 \varphi_2 M_1^3}) - \Lambda (\varphi_4 - \varphi_3- \varphi_2+1)M_1)\\
+\end{aligned}
+$$
+
+

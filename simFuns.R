@@ -25,7 +25,6 @@ simulate <- function(t, parms, type = "SI"){
 		app.model1 <- approx.model.SIS(parms)
 		app.model2 <- approx.model.SIS2(parms)
 	}
-	
 	r.het <- rk(unlist(yini.het), func = hetero.model, parms = parms, time = t)
 	r.app1 <- rk(unlist(yini.app1), func = app.model1, parms = parms, time = t)
 	r.app2 <- rk(unlist(yini.app2), func = app.model2, parms = parms, time = t)
