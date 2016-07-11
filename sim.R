@@ -12,6 +12,7 @@ parms.lnorm.SIS <- expand(parms.SIS, FUN = "lnorm")
 SI.list.lnorm <- simulate(tvec, parms.lnorm.SI, type = "SI")
 SIS.list.lnorm <- simulate(tvec, parms.lnorm.SIS, type = "SIS1")
 SIS.list.lnorm2 <- simulate(tvec, parms.lnorm.SIS, type = "SIS2")
+SIS.list.lnorm3 <- simulate(tvec, parms.lnorm.SIS, type = "SISalt")
 
 save("parms.lnorm.SI", "SI.list.lnorm",file="SI_sim.rda")
 save("parms.lnorm.SIS", "SIS.list.lnorm",file="SIS_sim.rda")

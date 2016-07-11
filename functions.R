@@ -18,6 +18,7 @@ expand.parlist <- function(x, FUN,...){
 		
 		phi_N = kappa2 + 1
 		phi_N3 = kappa3 + 1
+		phi_N3.alt = M_N3 * M_N/M_N2^2
 	})
 	return(x)
 }

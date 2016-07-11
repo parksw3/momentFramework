@@ -174,4 +174,32 @@ $$
 \end{aligned}
 $$
 
+Can we go back to the old definition? $\varphi_i = \frac{M_{i} M_{i-2}}{M_{i-1}^2}$
 
+First, we need a general equation for undestanding $M_i$:
+
+$$
+\begin{aligned}
+\dot{M}_i &= \frac{\dot{T}_i}{T_0} - \frac{\dot{T_0} T_i}{T_0^2}\\
+&= (\rho (\bar{T}_i/T_0 -M_i) - \Lambda M_{i+1}) - \rho(M_i \bar{T}_0/T_0 - M_i) + \Lambda M_i M_1\\
+&= \rho (\bar{M}_i- M_i) \frac{1}{T_0} - \Lambda (M_{i+1} - M_i M_1)\\
+\end{aligned}
+$$
+
+Probably can't do much with this...? Equation for $\varphi$...
+
+$$
+\begin{aligned}
+\dot{\varphi} &= \varphi(\frac{\dot{M}_2}{M_2} - 2 \frac{\dot{M}_1}{M_1})\\
+&= \varphi(\frac{\frac{\rho}{T_0} (\bar{M}_2- M_2) - \Lambda (M_3 - M_2 M_1)}{M_2} - 2 \frac{\frac{\rho}{T_0} (\bar{M}_1- M_1) - \Lambda (
+M_2 - M_1^2)}{M_1})\\
+&= \varphi(\frac{\rho}{T_0} (\frac{\bar{M}_2}{M_2} - 2 \frac{\bar{M}_1}{M_1} + 1) - \Lambda \frac{(M_3 M_1 - M_2 M_1^2) - 2 (M_2^2 - M_2 M_1^2) }{M_1 M_2}\\
+&= \varphi(\frac{\rho}{T_0} (\frac{\bar{M}_2}{M_2} - 2 \frac{\bar{M}}{M} + 1) - \Lambda (\varphi_3 \varphi -2\varphi + 2) M)\\
+&= \varphi(\frac{\rho}{T_0} (\frac{\bar{\varphi} \bar{M}^2}{\varphi M^2} - 2 \frac{\bar{M}}{M} + 1) - \Lambda (\varphi_3 \varphi -2\varphi + 2) M)\\
+&= \varphi(\frac{\rho}{T_0} (\frac{(\bar{\varphi}-\varphi)\bar{M}_1^2 + \varphi (\bar{M}_1 - M_1)^2}{\varphi M_1^2}) - \Lambda (\varphi_3 \varphi -2\varphi + 2) M)\\
+\end{aligned}
+$$
+
+What happens if we try to keep this $\varphi_3$ constant?
+
+It doesn't work... Why does this happen?

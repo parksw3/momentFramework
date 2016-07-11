@@ -20,8 +20,9 @@ hetero.model <- function(parameters){
 			M4 = sum(N.vec^4 * S)/sum(S)
 			kappa2 = M2/M1^2 -1
 			kappa3 = M3/(M2 * M1) - 1
+			dphi = phi * (rho/S * ((phi_N - phi)*M_N^2 + phi*(M_N - M)^2)/(phi * M^2) - beta * I * (kappa3 - 2 * kappa2)*M)
 			
-			return(list(c(dS,dI), kappa2 = kappa2, kappa3 = kappa3, M = M1, totS = sum(S), dM2 = dM2))
+			return(list(c(dS,dI), kappa2 = kappa2, kappa3 = kappa3, M = M1, totS = sum(S)))
 		})
 	}
 	return(g)
@@ -130,3 +131,29 @@ approx.model.SIS2 <- function(parameters){
 	}
 	return(g)
 }
+
+approx.model.SISalt <- function(parameters){
+	attach(parameters)
+	
+	if(rho > 0){
+		gamma = 1
+	}else{
+		gamma = 0
+	}
+	
+	detach(parameters)
+	
+	g <- function(t, yini, parameters){
+		with(as.list(c(yini,parameters)),{
+			
+			dS = rho * (1 - S) -M * S  * beta * I
+			dI = M * S * beta * I - gamma * I
+			dM = rho * (M_N - M)/S - beta * I * (phi-1) * M^2
+			dphi = phi * (rho/S * ((phi_N - phi)*M_N^2 + phi*(M_N - M)^2)/(phi * M^2) - beta * I * (phi_N3.alt*phi - 2 * phi + 2)*M)
+			
+			return(list(c(dS,dI, dM, dphi), kappa2 = (phi-1)))
+		})
+	}
+	return(g)
+}
+
