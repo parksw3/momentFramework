@@ -20,7 +20,6 @@ hetero.model <- function(parameters){
 			M4 = sum(N.vec^4 * S)/sum(S)
 			kappa2 = M2/M1^2 -1
 			kappa3 = M3/(M2 * M1) - 1
-			dphi = phi * (rho/S * ((phi_N - phi)*M_N^2 + phi*(M_N - M)^2)/(phi * M^2) - beta * I * (kappa3 - 2 * kappa2)*M)
 			
 			return(list(c(dS,dI), kappa2 = kappa2, kappa3 = kappa3, M = M1, totS = sum(S)))
 		})

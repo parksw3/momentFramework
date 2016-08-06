@@ -203,3 +203,7 @@ $$
 What happens if we try to keep this $\varphi_3$ constant?
 
 It doesn't work... Why does this happen?
+
+Better ideas..?
+
+

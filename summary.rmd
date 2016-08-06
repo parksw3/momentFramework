@@ -1,0 +1,143 @@
+---
+title: "Understanindg heterogeneous susceptibility using moment equations"
+output: pdf_document
+---
+
+## Introduction
+
+Many disease models study host heterogeneity by dividing the population into multiple subgroups based on the variable of interest. However, it is very difficult to measure how the distribution of hosts changes over time in a real epidemic. Is it possible to understand evolution of host heterogeneity using only a few parameters that can be realistically measured? We wish to achieve this by using moment closure.
+
+## Definition
+
+We want to write $Y_o(v;D)$ for T**y**pe, **o**rder, **v**ariable, and **D**omain. As we focused on susceptibility of the hosts for this project, we only looked at two domains: $S$, susceptible population, and $N$, susceptible population in a disease-free equilibrium. We introduce the following notation to allow distinction between two domains: $Y_o \equiv Y_o(.;S)$ and $\bar{Y}_o \equiv Y_o(v;N)$.
+
+We define total as follows: $T_o(v;D) = \int v(a)^o D(a) da$. We assume that $\bar{T}_0 = 1$ so that $T_0 = \int S(a) da$ is the total density of susceptible individuals at time $t$.
+
+We define $M_i = T_i/T_0$. Then, $M_1$ gives us the mean susceptibility of uninfected inviduals. We can also define squared coefficient of variance ($\kappa$) as follows: $\kappa = \frac{M_2M_0}{M_1^2}-1$. For convenience, We introduce a new variable, $\varphi$, which is equal to $\kappa + 1$: $\varphi = \frac{M_2M_0}{M_1^2}$.
+
+## SI model
+
+First, we start with a simple SI model: $\dot{S}(a) = - \Lambda \sigma(a) S(a)$. Integrating both sides gives us $\dot{T}_0 = - \Lambda T_1$. More generally, we have $\dot{T}_i = - \Lambda T_{i+1}$. Given that $M_1$ is the mean susceptibility, we can also write:
+
+$$
+\dot{T}_0 = - \Lambda M_1 T_0
+$$
+
+Using $M$ defined above, we also have the following equations: $\dot{M}_i = - \Lambda (M_{i+1} - M_i M_1)$.
+
+### Gamma speculation
+
+If we assume that the susceptibility is gamma distributed, we know that squared coefficient of variation stays constant over time. Given that $M_2 = \varphi M^2$ and assuming that $\varphi$ stays constant, we can integrate the equation above to obtain the following equation: $M(t) = \hat{M}S^(\varphi(t)-1)$, where $\hat{M}$ is the mean susceptibility of the population at a disease free equilibrium.
+
+### Non-gamma distributions & Higher order $\varphi$
+
+We define $\varphi_i = \frac{M_i}{M_{i-1}M_1}$. If the susceptility is not gamma distributed, how is it going to evolve? We can simply differentiate $\varphi_i$ to get the following equation:
+
+$$\dot{\varphi}_i = -\Lambda M_1 \varphi_2 (\varphi_3 - 2 \varphi_2 + 1)$$
+
+Three ways to close this moment equation
+
+- assume $\varphi_3$ stays constant
+- assume $r = (\varphi_3-1)/(\varphi_2-1)$  stays constant
+- assume $r = (\varphi_3-1)/(\varphi_2-1)$ changes over time and is proportional to $T_0$
+
+None of these methods really work well. Last method works OK for some distributions but it's still really bad. Another problem is that we can't really measure $\varphi_3$ in real life. Here's an example with log-normal distribution:
+
+```{r load, echo = FALSE, message= FALSE}
+load("SI_sim.rda")
+```
+
+Linear equation: $r \approx (\hat{r}-2)S + 2$
+
+Three simulations:
+
+- Heterogeneous model 
+- Approximated model: linear equation for $r$ coupled with approximated equation for $\varphi$
+- Approximated model: gamma speculation
+
+```{r plotComparison, fig.width = 15, fig.height=5}
+source("plotFunctions.R")
+name <- c("Heterogeneous", "Approximation 1", "Approximation 2")
+plotSim(SI.list.lnorm, name)
+```
+
+## SIS model
+
+Here is a simple SIS model: 
+
+$$
+\begin{aligned}
+\dot{S}(a) &= \rho(N(a)-S(a)) - \Lambda \sigma(a) S(a),\\
+\dot{I} &= \int \Lambda \sigma S(a) da - I.
+\end{aligned}
+$$
+
+For this model, we have $\dot{T}_i = \rho (\bar{T}_i - T_i) - \Lambda T_{i+1}$. Simple algebra shows that $\dot{M} = \rho (\bar{M} - M)/T_0 - (\varphi - 1)  M^2$.
+
+### Extension of gamma speculation
+
+Taking the derivative of $\varphi$ gives us the following equation:
+
+$$
+\dot{\varphi} = \varphi\{\frac{\rho}{T_0}(\frac{(\bar{\varphi}-\varphi)\bar{M}_1^2 + \varphi (\bar{M}_1 - M_1)^2}{\varphi M_1^2}) -\Lambda M_1 (\varphi_3 - 2 \varphi + 1)\}
+$$
+
+We want to extend gamma speculation used in SI model into SIS model. In the SI model, it was assumed that $\varphi_3-2\varphi+1 = 0$, which allowed $\varphi$ to stay constant. We use the same assumption in the SIS model and simplify the derivative to the following equation: 
+
+$$
+\dot{\varphi} = \varphi\{\frac{\rho}{T_0}(\frac{(\bar{\varphi}-\varphi)\bar{M}_1^2 + \varphi (\bar{M}_1 - M_1)^2}{\varphi M_1^2})
+$$
+
+How well does this work? Here's a comparison of three simulations:
+
+- Heterogeneous population
+- $\dot{M} = \rho (\bar{M}_1 - M_1)/T_0 - \Lambda (\varphi - 1) M_1^2$ with constant $\varphi$
+- Extension of gamma speculation
+
+```{r gamma_spec, error = FALSE, warning=FALSE, message=FALSE, fig.width = 15, fig.height=5}
+
+library("deSolve")
+source("model.R")
+source("parameters.R")
+source("functions.R")
+source("simFuns.R")
+
+tvec <- seq(0,30,0.1)
+gamma.parms <- expand(parms.SIS, FUN = "gamma")
+gamma.sim2 <- simulate(tvec, gamma.parms, type = "SIS2")
+
+plotSim(gamma.sim2, name)
+
+```
+
+### More distributions
+
+Testing the idea with wide range of distributions:
+
+1) Log-normal
+
+```{r SIS2, fig.width = 15, fig.height=5}
+load("SIS_sim2.rda")
+plotSim(SIS.list.lnorm2, name)
+```
+
+2) $f(x) = 1/(1+x)^4$ and $\kappa = 1$
+
+```{r fig.width = 15, fig.height=5}
+load("SIS_simCV1.rda")
+plotSim(SIS.list.CV1, name)
+```
+
+3) $f(x) = 1/(1+x^2)$ and $\kappa = 2$
+
+```{r fig.width = 15, fig.height=5}
+load("SIS_simCV2.rda")
+plotSim(SIS.list.CV2, name)
+```
+
+4) $f(x) = 1/(1+x)$ and $\kappa = 3$
+
+```{r fig.width = 15, fig.height=5}
+load("SIS_simCV3.rda")
+plotSim(SIS.list.CV3, name)
+```
