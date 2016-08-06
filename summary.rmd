@@ -27,7 +27,7 @@ Using $M$ defined above, we also have the following equations: $\dot{M}_i = - \L
 
 ### Gamma speculation
 
-If we assume that the susceptibility is gamma distributed, we know that squared coefficient of variation stays constant over time. Given that $M_2 = \varphi M^2$ and assuming that $\varphi$ stays constant, we can integrate the equation above to obtain the following equation: $M(t) = \hat{M}S^(\varphi(t)-1)$, where $\hat{M}$ is the mean susceptibility of the population at a disease free equilibrium.
+If we assume that the susceptibility is gamma distributed, we know that squared coefficient of variation stays constant over time. Given that $M_2 = \varphi M^2$ and assuming that $\varphi$ stays constant, we can integrate the equation above to obtain the following equation: $M(t) = \hat{M}S(t)^(\varphi-1)$, where $\hat{M}$ is the mean susceptibility of the population at a disease free equilibrium.
 
 ### Non-gamma distributions & Higher order $\varphi$
 
